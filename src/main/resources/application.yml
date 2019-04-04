@@ -1,0 +1,70 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /pt
+spring:
+  datasource:
+    druid:
+      url:  jdbc:mysql://localhost:3306/part_time?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      driver-class-name:  com.mysql.cj.jdbc.Driver
+      username:  root
+      password:  123456
+      initial-size:  20
+      # 最大连接池数量
+      max-active:  100
+      # 最小连接池数量
+      min-idle:  10
+      # 获取连接时最大等待时间，单位毫秒。默认启动公平锁
+      max-wait:  30000
+      # 是否缓存preparedStatement
+      pool-prepared-statements:  true
+      # 指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size:  20
+      # 用来检测连接是否有效的sql
+      validation-query:  SELECT 1
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      test-on-borrow:  false
+      # 归还连接时执行validationQuery检测连接是否有效
+      test-on-return:  false
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      test-while-idle:  true
+      time-between-eviction-runs-millis:  30000
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，wall用于防火墙,stat用于监控统计
+      filters: wall,stat
+#  redis:
+#    host:
+#    port:
+#    password:
+#    #连接超时时间
+#    timeout: 1000ms
+#    jedis:
+#      pool:
+#        # 连接池最大连接数（使用负值表示没有限制）
+#        max-active: 100
+#        # 连接池中的最大空闲连接
+#        max-idle: 100
+#        # 连接池中的最小空闲连接
+#        min-idle: 10
+#        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-wait: 2000ms
+
+mybatis-plus:
+  mapper-locations: classpath:mapper.*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.demo.parttime.*.entity
+  global-config:
+    # 数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: id_worker
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: not_empty
+      db-type: mysql
+    #刷新mapper 调试神器,开发时打开
+    refresh: true
+  # 原生配置
+  configuration:
+    # 是否开启自动驼峰命名规则（camel case）映射
+    map-underscore-to-camel-case: true
+
+
