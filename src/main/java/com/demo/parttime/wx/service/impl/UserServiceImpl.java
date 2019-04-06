@@ -2,7 +2,9 @@ package com.demo.parttime.wx.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.util.UserTokenManager;
 import com.demo.parttime.wx.dto.req.WxUserInfoSaveReq;
+import com.demo.parttime.wx.dto.resp.WxTokenResp;
 import com.demo.parttime.wx.service.IUserService;
 import com.demo.parttime.wx.entity.User;
 import com.demo.parttime.wx.mapper.UserMapper;
@@ -45,7 +47,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public BaseResp saveOpenId(String code) {
         String userId = jsCode2SessionInfo(code);
-        return userId != null ? BaseResp.success(userId) : BaseResp.fail();
+        if(userId == null){
+            return BaseResp.fail("503", "登陆凭证有误");
+        }
+        String token = new UserTokenManager().insertOrUpdateToken(userId);
+        WxTokenResp resp = new WxTokenResp(userId, token);
+        return BaseResp.success(resp);
     }
 
     /**
@@ -99,6 +106,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         log.info("jsCode2SessionInfo()-->url:{}, returnJson:{}, user:{}, insertOrUpdate:{}",
                 url, json.toString(), user, isSuccess);
+
         return userId;
     }
 

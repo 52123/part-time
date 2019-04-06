@@ -1,6 +1,9 @@
 package com.demo.parttime.wx.annotation.impl;
 
+import com.demo.parttime.util.UserToken;
+import com.demo.parttime.util.UserTokenManager;
 import com.demo.parttime.wx.annotation.WxUser;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -24,6 +27,10 @@ public class WxUserResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
+        String token = nativeWebRequest.getHeader("W-Token");
+        if(StringUtils.isNotBlank(token) && UserTokenManager.isExpire(token)){
+            return UserTokenManager.getUserToken(token).getUser();
+        }
         return null;
     }
 }

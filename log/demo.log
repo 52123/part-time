@@ -1,4 +1,1 @@
-2019-04-04 01:12:41,686 INFO (StartupInfoLogger.java:50)- Starting PartTimeApplication on DESKTOP-TBIJE5F with PID 23428 (E:\springBoot\part-time\target\classes started by vitamin in E:\springBoot\part-time)
-2019-04-04 01:12:41,692 DEBUG (StartupInfoLogger.java:53)- Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
-2019-04-04 01:12:41,693 INFO (SpringApplication.java:675)- No active profile set, falling back to default profiles: default
-2019-04-04 01:12:45,967 INFO (StartupInfoLogger.java:59)- Started PartTimeApplication in 4.918 seconds (JVM running for 8.054)
+2019-04-06 12:54:53,102 INFO (StartupInfoLogger.java:59)- Started PartTimeApplication in 4.115 seconds (JVM running for 5.548)
