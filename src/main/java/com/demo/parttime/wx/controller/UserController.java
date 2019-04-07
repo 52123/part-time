@@ -5,6 +5,7 @@ package com.demo.parttime.wx.controller;
 import com.demo.parttime.util.BaseResp;
 import com.demo.parttime.wx.annotation.WxUser;
 import com.demo.parttime.wx.dto.req.WxUserInfoSaveReq;
+import com.demo.parttime.wx.dto.resp.WxTokenResp;
 import com.demo.parttime.wx.entity.User;
 import com.demo.parttime.wx.service.IUserService;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/json2CodeSession")
-    public BaseResp getOpenId(@RequestParam("code") String code){
+    public WxTokenResp getOpenId(@RequestParam("code") String code){
         return userService.saveOpenId(code);
     }
 

@@ -1,6 +1,7 @@
 package com.demo.parttime.wx.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.util.BaseResp;
 import com.demo.parttime.util.UserTokenManager;
 import com.demo.parttime.wx.dto.req.WxUserInfoSaveReq;
@@ -11,6 +12,7 @@ import com.demo.parttime.wx.mapper.UserMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -37,6 +39,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Value("${AppSecret}")
     private String appSecret;
 
+    @Autowired
+    private UserTokenManager userTokenManager;
+
     private Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
@@ -45,14 +50,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return 返回处理状态
      */
     @Override
-    public BaseResp saveOpenId(String code) {
+    public WxTokenResp saveOpenId(String code) {
         String userId = jsCode2SessionInfo(code);
         if(userId == null){
-            return BaseResp.fail("503", "登陆凭证有误");
+            WxTokenResp resp = new WxTokenResp(null ,null);
+            resp.fail("503","登录凭证无效");
+            return resp;
         }
-        String token = new UserTokenManager().insertOrUpdateToken(userId);
-        WxTokenResp resp = new WxTokenResp(userId, token);
-        return BaseResp.success(resp);
+        String token = userTokenManager.insertOrUpdateToken(userId);
+        return new WxTokenResp(userId, token);
     }
 
     /**
@@ -95,13 +101,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String userId = null;
         boolean isSuccess = false;
         User user = null;
-        if(json.getInteger("errcode") == 0){
+        if(!json.containsKey("errcode")){
             String openid = json.getString("openid");
             String sessionKey = json.getString("session_key");
-            String unionId = json.getString("unionid");
+//            String unionId = json.getString("unionid");
             //todo 将userId放入缓存，命中缓存则跳过下面操作
             userId = DigestUtils.md5DigestAsHex(openid.getBytes());
-            user = new User(userId, openid, sessionKey, unionId);
+            user = (User)new User().selectOne(new QueryWrapper<User>().eq("user_id",userId));
+            if(user == null){
+                user = new User(userId, openid, null, sessionKey);
+            }
             isSuccess = user.insertOrUpdate();
         }
         log.info("jsCode2SessionInfo()-->url:{}, returnJson:{}, user:{}, insertOrUpdate:{}",

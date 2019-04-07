@@ -1,7 +1,10 @@
 package com.demo.parttime.util;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.wx.entity.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
@@ -12,9 +15,10 @@ import java.util.HashMap;
  * @author 52123
  * @since 2019/4/5 9:58
  */
+@Component
 public class UserTokenManager {
 
-    @Value("${expireTime.wx}")
+    @Value("${expireTime_wx}")
     private Integer second;
 
     /**
@@ -30,7 +34,7 @@ public class UserTokenManager {
     public static boolean isExpire(String token){
         if(tokenHashMap.containsKey(token)){
             UserToken userToken = tokenHashMap.get(token);
-            return userToken.getExpireTime().isBefore(LocalDateTime.now());
+            return LocalDateTime.now().isBefore(userToken.getExpireTime());
         }
         return true;
     }
@@ -51,7 +55,7 @@ public class UserTokenManager {
         // 若无，新建token
         if(token == null){
             token = generateToken(userId);
-            User user = (User)new User().selectById(userId);
+            User user = (User)new User().selectOne(new QueryWrapper<User>().eq("user_id",userId));
             UserToken userToken = new UserToken(user,second);
             tokenHashMap.put(token, userToken);
             return token;
@@ -60,7 +64,7 @@ public class UserTokenManager {
         // 若还未过期，增加过期时长
         // 若过期，更换token
         UserToken userToken = tokenHashMap.get(token);
-        if(userToken.getExpireTime().isBefore(LocalDateTime.now())){
+        if(LocalDateTime.now().isBefore(userToken.getExpireTime())){
             userToken.resetExpireTime(second);
         }else{
             tokenHashMap.remove(token);

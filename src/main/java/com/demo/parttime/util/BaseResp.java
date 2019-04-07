@@ -9,7 +9,7 @@ public class BaseResp<T> {
 
     private String message;
 
-    T data;
+    private T data = null;
 
     public static <T> BaseResp success(T data){
         BaseResp<T> baseResp = new BaseResp<>();

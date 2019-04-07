@@ -3,6 +3,7 @@ package com.demo.parttime.filter;
 import com.alibaba.fastjson.JSON;
 import com.demo.parttime.util.BaseResp;
 import com.demo.parttime.util.UserTokenManager;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import java.io.PrintWriter;
  * @author 52123
  * @since 2019/4/6 12:09
  */
+@Component
 public class LoginFilter implements HandlerInterceptor {
 
     private final static String LOGIN_URI = "/user/json2CodeSession";

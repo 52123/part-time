@@ -1,13 +1,16 @@
 package com.demo.parttime.wx.dto.resp;
 
-import lombok.Data;
+import com.demo.parttime.util.WebResp;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author 52123
  * @since 2019/4/5 19:28
  */
-@Data
-public class WxTokenResp {
+@Getter
+@Setter
+public class WxTokenResp extends WebResp {
 
     private String userId;
 
@@ -18,4 +21,11 @@ public class WxTokenResp {
         this.token = token;
     }
 
+    @Override
+    public String toString() {
+        return "WxTokenResp{" +
+                "userId='" + userId + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }
