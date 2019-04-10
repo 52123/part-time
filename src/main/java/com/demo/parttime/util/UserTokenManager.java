@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.wx.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.util.HashMap;
  * @author 52123
  * @since 2019/4/5 9:58
  */
-@Component
+@Component("userTokenManager")
 public class UserTokenManager {
 
     @Value("${expireTime_wx}")
@@ -31,10 +30,10 @@ public class UserTokenManager {
      * @param token 前端传入的token
      * @return boolean
      */
-    public static boolean isExpire(String token){
+    public boolean isExpire(String token){
         if(tokenHashMap.containsKey(token)){
             UserToken userToken = tokenHashMap.get(token);
-            return LocalDateTime.now().isBefore(userToken.getExpireTime());
+            return userToken.getExpireTime().isBefore(LocalDateTime.now());
         }
         return true;
     }
@@ -80,7 +79,7 @@ public class UserTokenManager {
      *  检查hashMap里是否已有该用户的token
      * @param userId 用户ID
      */
-    private String hasToken(String userId) {
+    private static String hasToken(String userId) {
         for(String token : tokenHashMap.keySet()){
             if(token.contains(userId)){
                 return token;

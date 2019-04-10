@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -39,7 +40,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Value("${AppSecret}")
     private String appSecret;
 
-    @Autowired
+    @Resource
     private UserTokenManager userTokenManager;
 
     private Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
