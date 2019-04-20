@@ -16,23 +16,27 @@ public class WebResp {
     
     private Integer pageNum = null;
 
-    public void fail(String resultCode , String message){
+    public WebResp fail(String resultCode , String message){
         setMessage(message);
         setResultCode(resultCode);
+        return this;
     }
 
-    public void unlogin(){
+    public WebResp unlogin(){
         setMessage("请先登录");
         setResultCode("501");
+        return this;
     }
 
-    public void badArgument(){
+    public WebResp badArgument(){
         setMessage("参数值有误");
         setResultCode("502");
+        return this;
     }
 
-    public void fail(){
+    public WebResp fail(){
         setMessage("服务器内部有误");
         setResultCode("500");
+        return this;
     }
 }

@@ -2,6 +2,11 @@ package com.demo.parttime.company.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,9 +22,13 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Pinfo implements Serializable {
+@TableName("p_info")
+public class Pinfo extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @TableId(type = IdType.AUTO)
+    private int id;
 
     /**
      * 所属公司
@@ -29,7 +38,7 @@ public class Pinfo implements Serializable {
     /**
      * 名称
      */
-    private String pName;
+    private String title;
 
     /**
      * 工作内容
@@ -109,7 +118,7 @@ public class Pinfo implements Serializable {
     /**
      * 联系方式
      */
-    private String contactWay;
+    private String contactNumber;
 
     /**
      * 咨询群二维码
@@ -131,5 +140,18 @@ public class Pinfo implements Serializable {
      */
     private LocalDateTime createTime;
 
+    /**
+     *  过期时间
+     */
+    private LocalDateTime expireTime;
 
+    /**
+     *  公司名称
+     */
+    private String companyName;
+
+    @Override
+    protected Serializable pkVal() {
+        return id;
+    }
 }
