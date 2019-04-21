@@ -32,7 +32,15 @@ public class PartTimeSectionResp extends WebResp {
      */
     private String salary;
 
+    /**
+     *  公司名
+     */
     private String companyName;
+
+    /**
+     *  是否为长期
+     */
+    private Integer longTerm;
 
     /**
      * 创建时间

@@ -61,6 +61,7 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
             resp.setAddress(info.getAddress());
             resp.setCreateTime(info.getCreateTime());
             resp.setId(info.getId());
+            resp.setLongTerm(info.getLongTerm());
             resp.setSalary(info.getSalary());
             resp.setTitle(info.getTitle());
             resp.setCompanyName(info.getCompanyName());

@@ -63,7 +63,7 @@ public class Pinfo extends Model implements Serializable {
     /**
      * 长期兼职，0-不是，1-是
      */
-    private String longTerm;
+    private Integer longTerm;
 
     /**
      * 薪资
@@ -73,7 +73,7 @@ public class Pinfo extends Model implements Serializable {
     /**
      * 面议， 0-不是，1-是
      */
-    private String discuss;
+    private Integer discuss;
 
     /**
      * 要求
@@ -93,7 +93,7 @@ public class Pinfo extends Model implements Serializable {
     /**
      * 需要面试，0-不需要，1-需要
      */
-    private String needInterview;
+    private Integer needInterview;
 
     /**
      * 面试时间
