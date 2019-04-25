@@ -2,12 +2,15 @@ package com.demo.parttime.company.controller;
 
 
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
+import com.demo.parttime.company.entity.Classify;
 import com.demo.parttime.company.entity.Form;
 import com.demo.parttime.company.service.IFormService;
 import com.demo.parttime.company.service.IPinfoService;
 import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.util.WebResp;
 import com.demo.parttime.wx.annotation.WxUser;
 import com.demo.parttime.wx.entity.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,10 +33,16 @@ public class PInfoController {
     @Resource
     private IFormService formService;
 
+    @Value("${INDEX_SHOW_NUM}")
+    private Integer indexShowNum = 8;
+
+    @Value("${CLASSIFY_SHOW_NUM}")
+    private Integer classifyShowNum = 12;
 
     @PostMapping("/getInfoForIndex")
-    public BaseResp getInfoForIndex(@RequestBody PartTimeSectionReq req){
-        return infoService.getInfoForIndex(req);
+    public WebResp getInfoForIndex(@RequestBody PartTimeSectionReq req){
+        req.setPageSize(indexShowNum);
+        return infoService.getPartTimeList(req);
     }
 
     @PostMapping("/getPartTimeDetail/{id}")
@@ -53,4 +62,14 @@ public class PInfoController {
                 ? BaseResp.success(false) : BaseResp.success(true);
     }
 
+    @PostMapping("/partTimeList")
+    public WebResp getPartTimeList(@RequestBody PartTimeSectionReq req){
+        req.setPageSize(classifyShowNum);
+        return infoService.getPartTimeList(req);
+    }
+
+    @GetMapping("/getCategory")
+    public BaseResp getCategory(){
+        return BaseResp.success(new Classify().selectAll());
+    }
 }

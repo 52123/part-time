@@ -30,7 +30,7 @@ public class PartTimeSectionResp extends WebResp {
     /**
      * 薪资
      */
-    private String salary;
+    private Integer salary;
 
     /**
      *  公司名

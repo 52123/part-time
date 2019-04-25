@@ -7,14 +7,20 @@ import lombok.Data;
  * @since 2019/4/8 0:58
  */
 @Data
-public class WebResp {
+public class WebResp<T> {
     private String resultCode = "0000";
     
     private String message;
-    
-    private Integer pageSize = null;
-    
-    private Integer pageNum = null;
+
+    private Integer totalPage = null;
+
+    private T data;
+
+    public WebResp success(T data, Integer totalPage){
+        this.data = data;
+        this.totalPage = totalPage;
+        return this;
+    }
 
     public WebResp fail(String resultCode , String message){
         setMessage(message);

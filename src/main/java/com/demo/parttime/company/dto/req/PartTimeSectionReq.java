@@ -17,4 +17,6 @@ public class PartTimeSectionReq extends WebReq {
     private String address;
 
     private String search;
+
+    private Integer categoryId;
 }

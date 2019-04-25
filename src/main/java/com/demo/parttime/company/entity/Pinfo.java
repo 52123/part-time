@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -68,7 +69,7 @@ public class Pinfo extends Model implements Serializable {
     /**
      * 薪资
      */
-    private String salary;
+    private Integer salary;
 
     /**
      * 面议， 0-不是，1-是
@@ -149,6 +150,16 @@ public class Pinfo extends Model implements Serializable {
      *  公司名称
      */
     private String companyName;
+
+    /**
+     *  是否已发布,0-未发布，1-已发布，2-已删除
+     */
+    private Integer publish;
+
+    /**
+     *  分类
+     */
+    private Integer categoryId;
 
     @Override
     protected Serializable pkVal() {

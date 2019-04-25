@@ -1,6 +1,5 @@
 package com.demo.parttime.company.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
 import com.demo.parttime.company.dto.resp.PartTimeSectionResp;
@@ -9,6 +8,10 @@ import com.demo.parttime.company.mapper.PinfoMapper;
 import com.demo.parttime.company.service.IPinfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.util.WebResp;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,35 +29,67 @@ import java.util.List;
 @Service
 public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements IPinfoService {
 
-    private static final int INDEX_SHOW_NUM = 8;
-
     //todo 以后从数据库里读取
 
     private static final String[] TYPES = {"create_time","salary","address"};
 
-    private static final String[] ADDRESSES = {"All","南海","禅城","三水","高明"};
+    private static final String[] ADDRESSES = {"All","南海","禅城","顺德","三水","高明"};
 
     @Override
     @SuppressWarnings("unchecked")
-    public BaseResp getInfoForIndex(PartTimeSectionReq req) {
+    public WebResp getPartTimeList(PartTimeSectionReq req) {
+
+        // 先判断类型跟地址数据是否合法
         String type = req.getType();
         String address = req.getAddress();
-       if(!hasTypeAndAddress(type, address)){
-           return BaseResp.fail("400","参数值有误");
-       }
+        if(!hasTypeAndAddress(type, address)){
+           return new WebResp().fail("400","参数值有误");
+        }
 
+        // 获取页数
+        int pageSize = req.getPageSize() == null || req.getPageSize() <= 0 ? 8 : req.getPageSize();
+        int pageNum = req.getPageNum() == null || req.getPageNum() <= 0 ? 1 : req.getPageNum();
+
+        // 判断search的值是否合法
+        String search = req.getSearch();
+        boolean searchCondition = isLegalSearch(search);
+
+        // 判断是否需要按类目进行选取
+        Integer categoryId = req.getCategoryId();
+        boolean categoryCondition = isLegalCategoryValue(categoryId);
+
+        // todo 可优化,以后从缓存中读取，或者搜索引擎
+        // 若不等于区域，则进行like查询
         List<Pinfo> pinfoList;
-        // todo 从缓存中读取
-       if(!TYPES[2].equals(type)){
-          pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq("status",1).orderByDesc(type).last("limit 8"));
-       }else{
+        if(!TYPES[2].equals(type)){
+           PageHelper.startPage(pageNum,pageSize);
+           pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
+                   .eq("status",1).eq("publish",1)
+                   .like(searchCondition,"title",search).orderByDesc(type));
+        }else{
            if(ADDRESSES[0].equals(address)){
-               pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq("status",1).orderByDesc(type).last("limit 8"));
+               PageHelper.startPage(pageNum,pageSize);
+               pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
+                       .eq("status",1).eq("publish",1)
+                       .like(searchCondition,"title",search).orderByDesc(type));
            }else{
-               pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq("status",1).like("address",address).last("limit 8"));
+               PageHelper.startPage(pageNum,pageSize);
+               pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
+                       .eq("status",1).eq("publish",1)
+                       .like("address",address).like(searchCondition,"title",search));
            }
-       }
+        }
 
+        // 命中总数和总页数
+        long totalHit;
+        Integer totalPage = null;
+        if(req.getPageNum()!= null &&  req.getPageNum() > 0){
+            totalHit = new PageInfo(pinfoList).getTotal();
+            totalPage = (int)totalHit / pageSize + 1;
+        }
+
+
+        // 封装DTO
         List<PartTimeSectionResp> respList = new ArrayList<>();
         for(Pinfo info : pinfoList){
             PartTimeSectionResp resp = new PartTimeSectionResp();
@@ -67,7 +102,15 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
             resp.setCompanyName(info.getCompanyName());
             respList.add(resp);
         }
-        return BaseResp.success(respList);
+        return new WebResp().success(respList, totalPage);
+    }
+
+    private boolean isLegalCategoryValue(Integer categoryId) {
+        return categoryId != null && categoryId >= 0;
+    }
+
+    private boolean isLegalSearch(String search) {
+        return StringUtils.isNotBlank(search) && "null".equals(search);
     }
 
     private boolean hasTypeAndAddress(String type, String address){
