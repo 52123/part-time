@@ -1,8 +1,11 @@
 package com.demo.parttime.company.service;
 
+import com.demo.parttime.company.dto.req.DeliverStatusReq;
 import com.demo.parttime.company.entity.Form;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.util.WebResp;
+import com.demo.parttime.wx.entity.User;
 
 /**
  * <p>
@@ -21,4 +24,12 @@ public interface IFormService extends IService<Form> {
      * @return BaseResp
      */
     BaseResp signUp(Integer userId, Integer pId);
+
+    /**
+     *  获取投递列表
+     * @param user 用户
+     * @param req 状态
+     * @return BaseResp
+     */
+    WebResp getDeliverList(User user, DeliverStatusReq req);
 }

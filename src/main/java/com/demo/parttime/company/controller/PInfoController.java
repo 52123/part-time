@@ -1,6 +1,7 @@
 package com.demo.parttime.company.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
 import com.demo.parttime.company.entity.Classify;
 import com.demo.parttime.company.entity.Form;
@@ -36,7 +37,7 @@ public class PInfoController {
     @Value("${INDEX_SHOW_NUM}")
     private Integer indexShowNum = 8;
 
-    @Value("${CLASSIFY_SHOW_NUM}")
+    @Value("${LOGIN_SHOW_NUM}")
     private Integer classifyShowNum = 12;
 
     @PostMapping("/getInfoForIndex")
@@ -57,8 +58,8 @@ public class PInfoController {
 
     @PostMapping("/isSignUp/{id}")
     public BaseResp isSignUp(@WxUser User user, @PathVariable("id") Integer id){
-        String index = user.getId() + "_" + id;
-        return new Form().selectById(index) == null
+        return new Form().selectOne(new QueryWrapper<Form>()
+                .eq("p_id",id).eq("user_id",user.getId())) == null
                 ? BaseResp.success(false) : BaseResp.success(true);
     }
 

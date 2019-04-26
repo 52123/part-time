@@ -1,6 +1,7 @@
 package com.demo.parttime.wx.service;
 
 import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.util.WebResp;
 import com.demo.parttime.wx.entity.Collect;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.parttime.wx.entity.User;
@@ -22,4 +23,12 @@ public interface ICollectService extends IService<Collect> {
      * @return BaseResp
      */
     BaseResp favorite(User user, Integer id);
+
+    /**
+     *  获取收藏列表
+     * @param user 用户
+     * @param pageNum 页数
+     * @return WebResp
+     */
+    WebResp getFavorList(User user, Integer pageNum);
 }

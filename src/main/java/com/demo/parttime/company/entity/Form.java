@@ -1,5 +1,6 @@
 package com.demo.parttime.company.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
@@ -36,14 +37,14 @@ public class Form extends Model implements Serializable {
     private Integer pId;
 
     /**
-     * 报名状态，0-已成功投递，1-已查看，2-录用，3-拒绝
+     * 报报名状态，0-已成功投递，1-已查看，2-待面试，3-录用，4-拒绝
      */
     private Integer status;
 
     /**
      *  索引，userId _pId
      */
-    @TableId
+    @TableId( type = IdType.AUTO)
     private String id;
 
     @Override

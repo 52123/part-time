@@ -81,10 +81,9 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
         }
 
         // 命中总数和总页数
-        long totalHit;
         Integer totalPage = null;
         if(req.getPageNum()!= null &&  req.getPageNum() > 0){
-            totalHit = new PageInfo(pinfoList).getTotal();
+            long totalHit = new PageInfo(pinfoList).getTotal();
             totalPage = (int)totalHit / pageSize + 1;
         }
 
