@@ -1,6 +1,10 @@
 package com.demo.parttime.wx.entity;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,9 +20,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Resume implements Serializable {
+public class Resume extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @TableId(type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 姓名
@@ -45,5 +52,15 @@ public class Resume implements Serializable {
      */
     private String introduce;
 
+    /**
+     * 出生年月
+     */
+    private String birthDate;
 
+    private String userId;
+
+    @Override
+    protected Serializable pkVal() {
+        return id;
+    }
 }
