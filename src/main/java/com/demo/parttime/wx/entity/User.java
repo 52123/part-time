@@ -64,6 +64,8 @@ public class User extends Model implements Serializable {
 
     private String sessionKey;
 
+    private Integer auth;
+
     public User(){}
 
     @Override
