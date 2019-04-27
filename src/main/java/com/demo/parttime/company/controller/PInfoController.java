@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
 import com.demo.parttime.company.entity.Classify;
 import com.demo.parttime.company.entity.Form;
+import com.demo.parttime.company.entity.Pinfo;
 import com.demo.parttime.company.service.IFormService;
 import com.demo.parttime.company.service.IPinfoService;
 import com.demo.parttime.util.BaseResp;
@@ -48,7 +49,7 @@ public class PInfoController {
 
     @PostMapping("/getPartTimeDetail/{id}")
     public BaseResp getPartTimeDetail(@PathVariable("id") Integer id){
-        return BaseResp.success(infoService.getById(id));
+        return infoService.getPartTImeDetail(id);
     }
 
     @PostMapping("/signUp/{id}")

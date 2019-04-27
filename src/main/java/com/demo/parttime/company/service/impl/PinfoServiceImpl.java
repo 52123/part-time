@@ -33,7 +33,7 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
 
     private static final String[] TYPES = {"create_time","salary","address"};
 
-    private static final String[] ADDRESSES = {"All","南海","禅城","顺德","三水","高明"};
+    private static final String[] ADDRESSES = {"不限","南海","禅城","顺德","三水","高明"};
 
     @Override
     @SuppressWarnings("unchecked")
@@ -45,6 +45,10 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
         if(!hasTypeAndAddress(type, address)){
            return new WebResp().fail("400","参数值有误");
         }
+
+        boolean addressCondition = !ADDRESSES[0].equals(address);
+
+
 
         // 获取页数
         int pageSize = req.getPageSize() == null || req.getPageSize() <= 0 ? 8 : req.getPageSize();
@@ -65,18 +69,18 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
            PageHelper.startPage(pageNum,pageSize);
            pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
                    .eq("status",1).eq("publish",1)
-                   .like(searchCondition,"title",search).orderByDesc(type));
+                   .like(searchCondition,"title",search).like(addressCondition,"address",address).orderByDesc(type));
         }else{
            if(ADDRESSES[0].equals(address)){
                PageHelper.startPage(pageNum,pageSize);
                pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
                        .eq("status",1).eq("publish",1)
-                       .like(searchCondition,"title",search).orderByDesc(type));
+                       .like(searchCondition,"title",search).orderByDesc("create_time"));
            }else{
                PageHelper.startPage(pageNum,pageSize);
                pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
                        .eq("status",1).eq("publish",1)
-                       .like("address",address).like(searchCondition,"title",search));
+                       .like("address",address).like(searchCondition,"title",search).orderByDesc("create_time"));
            }
         }
 
@@ -104,12 +108,23 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
         return new WebResp().success(respList, totalPage);
     }
 
+    @Override
+    public BaseResp getPartTImeDetail(Integer id) {
+        Pinfo pinfo = (Pinfo)new Pinfo().selectById(id);
+        if(pinfo.getStatus() == 1 && pinfo.getPublish() == 1){
+            pinfo.setView(pinfo.getView() + 1);
+            pinfo.updateById();
+            return BaseResp.success(pinfo);
+        }
+        return BaseResp.fail("0002","该兼职不存在，或已过期");
+    }
+
     private boolean isLegalCategoryValue(Integer categoryId) {
         return categoryId != null && categoryId >= 0;
     }
 
     private boolean isLegalSearch(String search) {
-        return StringUtils.isNotBlank(search) && "null".equals(search);
+        return StringUtils.isNotBlank(search) && !"null".equals(search);
     }
 
     private boolean hasTypeAndAddress(String type, String address){

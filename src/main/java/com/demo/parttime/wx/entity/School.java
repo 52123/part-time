@@ -1,10 +1,9 @@
-package com.demo.parttime.admin.entity;
+package com.demo.parttime.wx.entity;
+
+import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,13 +15,12 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author 52123
- * @since 2019-02-19
+ * @since 2019-04-28
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("about_us")
-public class Us extends Model implements Serializable {
+public class School extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,18 +28,13 @@ public class Us extends Model implements Serializable {
     private Integer id;
 
     /**
-     * 地址
+     * 学校名
      */
-    private String address;
+    private String school;
 
-    /**
-     * 联系电话
-     */
-    private String mobile;
+    private String college;
 
-    private String email;
-
-    private Integer qq;
+    private String grade;
 
     @Override
     protected Serializable pkVal() {

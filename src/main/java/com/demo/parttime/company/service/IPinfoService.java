@@ -3,6 +3,7 @@ package com.demo.parttime.company.service;
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
 import com.demo.parttime.company.entity.Pinfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.demo.parttime.util.BaseResp;
 import com.demo.parttime.util.WebResp;
 
 /**
@@ -21,4 +22,11 @@ public interface IPinfoService extends IService<Pinfo> {
      * @return BaseResp
      */
     WebResp getPartTimeList(PartTimeSectionReq req);
+
+    /**
+     *  获取兼职详情
+     * @param id 兼职id
+     * @return BaseResp
+     */
+    BaseResp getPartTImeDetail(Integer id);
 }

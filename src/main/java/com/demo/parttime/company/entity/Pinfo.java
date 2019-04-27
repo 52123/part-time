@@ -161,6 +161,11 @@ public class Pinfo extends Model implements Serializable {
      */
     private Integer categoryId;
 
+    /**
+     * 浏览量
+     */
+    private Integer view;
+
     @Override
     protected Serializable pkVal() {
         return id;
