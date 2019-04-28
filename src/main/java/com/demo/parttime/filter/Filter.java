@@ -29,7 +29,7 @@ public class Filter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getServletPath();
         for (String unLoginUri : UNLOGIN_URI) {
-            if (unLoginUri.equals(uri)) {
+            if (unLoginUri.equals(uri) || "/static/".equals(uri.substring(0,8))) {
                 return true;
             }
         }

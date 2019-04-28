@@ -5,10 +5,10 @@ server:
 spring:
   datasource:
     druid:
-      url:  jdbc:mysql://localhost:3306/part_time_test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      url:  jdbc:mysql://localhost:3306/part_time?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
       driver-class-name:  com.mysql.cj.jdbc.Driver
       username:  root
-      password:  123456
+      password:  part-time-demo
       initial-size:  20
       # 最大连接池数量
       max-active:  100
