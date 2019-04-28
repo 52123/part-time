@@ -13,6 +13,28 @@ public class PartTimeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PartTimeApplication.class, args);
+        System.out.println("\n"+
+
+                "   \n"+
+                "　　　┏┓　　　┏┓         \n"+
+                "　　┏┛┻━━━┛┻┓              \n"+
+                "　  ┃　　　　　　　┃     \n"+
+                "　  ┃　　　━　　　┃     \n"+
+                "　  ┃　┳┛　┗┳  ┃  \n"+
+                "　　┃　　　　　　　┃  \n"+
+                "　　┃　　　┻　　　┃  \n"+
+                "　　┃　　　　　　　┃  \n"+
+                "　　┗━┓　　　┏━┛  \n"+
+                "　　　　┃　　　┃      \n"+
+                "　　　　┃　　　┃  \n"+
+                "　　　　┃　　　┗━━━┓  \n"+
+                "　　　　┃   神兽保佑　 ┣┓  \n"+
+                "　　　　┃　　52123　   ┏┛  \n"+
+                "　　　　┗┓┓┏━┳┓┏┛  \n"+
+                "　　　　　┃┫┫　┃┫┫  \n"+
+                "　　　　　┗┻┛　┗┻┛  \n"
+
+        );
     }
 
 }
