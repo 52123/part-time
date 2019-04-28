@@ -8,7 +8,7 @@ spring:
       url:  jdbc:mysql://localhost:3306/part_time_test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
       driver-class-name:  com.mysql.cj.jdbc.Driver
       username:  test
-      password:  test-123
+      password:  Test-123
       initial-size:  20
       # 最大连接池数量
       max-active:  100
