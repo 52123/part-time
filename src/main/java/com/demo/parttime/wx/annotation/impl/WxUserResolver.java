@@ -10,12 +10,17 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import javax.annotation.Resource;
+
 
 /**
  * @author huangzhiqiang
  */
 @Component
 public class WxUserResolver implements HandlerMethodArgumentResolver {
+
+    @Resource
+    private UserTokenManager userTokenManager;
 
     /**
      *  判断 HandlerMethodArgumentResolver 是否支持 MethodParameter(PS: 一般都是通过 参数上面的注解|参数的类型)
@@ -26,12 +31,10 @@ public class WxUserResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) {
         String token = nativeWebRequest.getHeader("W-Token");
         if(StringUtils.isNotBlank(token)){
-            if(UserTokenManager.getUserToken(token) != null){
-                return UserTokenManager.getUserToken(token).getUser();
-            }
+            return userTokenManager.getUser(token);
         }
         return null;
     }

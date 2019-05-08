@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             resp.fail("503","登录凭证无效");
             return resp;
         }
-        String token = userTokenManager.insertOrUpdateToken(userId);
+        String token = userTokenManager.insert(userId);
         return new WxTokenResp(userId, token);
     }
 

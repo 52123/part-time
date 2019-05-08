@@ -3,11 +3,13 @@ package com.demo.parttime.util;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.wx.entity.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -18,12 +20,12 @@ import java.util.HashMap;
 public class UserTokenManager {
 
     @Value("${expireTime_wx}")
-    private Integer second;
+    private Long second;
 
-    /**
-     *  以token为键，UserToken为值
-     */
-    private static HashMap<String, UserToken>  tokenHashMap = new HashMap<>(512);
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
+
+    private String prefixKey = "user:token:";
 
     /**
      *  当前用户token是否还有效
@@ -31,61 +33,29 @@ public class UserTokenManager {
      * @return boolean
      */
     public boolean isExpire(String token){
-        if(tokenHashMap.containsKey(token)){
-            UserToken userToken = tokenHashMap.get(token);
-            return userToken.getExpireTime().isBefore(LocalDateTime.now());
+        String redisKey = prefixKey + token;
+        if(redisTemplate.hasKey(redisKey)){
+            redisTemplate.expire(redisKey, second, TimeUnit.SECONDS);
+            return false;
         }
         return true;
     }
 
-    public static UserToken getUserToken(String token){
-        return tokenHashMap.get(token);
+    public User getUser(String token){
+        return (User)redisTemplate.opsForValue().get(prefixKey + token);
     }
 
     /**
-     *  创建token
+     *  创建token并放入缓存中
      * @param userId 用户ID
      */
-    public String insertOrUpdateToken(String userId){
-
-        // 查找tokenHashMap中是否已存在token
-        String token = hasToken(userId);
-
-        // 若无，新建token
-        if(token == null){
-            token = generateToken(userId);
-            User user = (User)new User().selectOne(new QueryWrapper<User>().eq("user_id",userId));
-            UserToken userToken = new UserToken(user,second);
-            tokenHashMap.put(token, userToken);
-            return token;
-        }
-
-        // 若还未过期，增加过期时长
-        // 若过期，更换token
-        UserToken userToken = tokenHashMap.get(token);
-        if(LocalDateTime.now().isBefore(userToken.getExpireTime())){
-            userToken.resetExpireTime(second);
-        }else{
-            tokenHashMap.remove(token);
-            token = generateToken(userId);
-            tokenHashMap.put(token, userToken);
-            userToken.resetExpireTime(second);
-        }
-
+    public String insert(String userId){
+        String token = generateToken(userId);
+        String redisKey = prefixKey + token;
+        User user = (User)new User().selectOne(new QueryWrapper<User>().eq("user_id",userId));
+        redisTemplate.opsForValue().set(redisKey, user);
+        redisTemplate.expire(redisKey, 30, TimeUnit.SECONDS);
         return token;
-    }
-
-    /**
-     *  检查hashMap里是否已有该用户的token
-     * @param userId 用户ID
-     */
-    private static String hasToken(String userId) {
-        for(String token : tokenHashMap.keySet()){
-            if(token.contains(userId)){
-                return token;
-            }
-        }
-        return null;
     }
 
     /**
@@ -94,8 +64,7 @@ public class UserTokenManager {
      * @return token
      */
     private String generateToken(String userId){
-        String clearText = userId + LocalDateTime.now().toString();
-        return userId + DigestUtils.md5DigestAsHex(clearText.getBytes());
+        return DigestUtils.md5DigestAsHex((userId + LocalDateTime.now()).getBytes());
     }
 
 }
