@@ -47,7 +47,7 @@ public class PartTimeSectionResp extends WebResp {
      */
     private String createTime;
 
-    public void setCreateTime(LocalDateTime createTime){
+    public void setCreateTimeToString(LocalDateTime createTime){
         // 提前八小时
         this.createTime = createTime.minusHours(8).toString().split("T")[0];
     }
