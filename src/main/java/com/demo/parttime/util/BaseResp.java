@@ -2,8 +2,12 @@ package com.demo.parttime.util;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class BaseResp<T> {
+public class BaseResp<T> implements Serializable {
+
+    private static final long serialVersionUID = -2976319439622297045L;
 
     private String resultCode = "0000";
 

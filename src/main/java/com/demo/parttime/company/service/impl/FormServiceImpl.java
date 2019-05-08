@@ -64,7 +64,7 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements IF
             partTimeSection.setCompanyName(pinfo.getCompanyName());
             partTimeSection.setTitle(pinfo.getTitle());
             partTimeSection.setId(pinfo.getId());
-            partTimeSection.setCreateTime(pinfo.getCreateTime());
+            partTimeSection.setCreateTimeToString(pinfo.getCreateTime());
             partTimeSection.setAddress(pinfo.getAddress());
             partTimeSection.setSalary(pinfo.getSalary());
             partTimeList.add(partTimeSection);

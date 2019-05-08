@@ -1,6 +1,8 @@
 package com.demo.parttime.company.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.demo.parttime.company.annotation.ObjectCacheable;
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
 import com.demo.parttime.company.dto.resp.PartTimeSectionResp;
 import com.demo.parttime.company.entity.Pinfo;
@@ -15,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,6 +38,7 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
 
     @Override
     @SuppressWarnings("unchecked")
+    @ObjectCacheable(key = "{}:{}:{}:{}",fields = {"type","address","pageNum","pageSize"})
     public WebResp getPartTimeList(PartTimeSectionReq req) {
 
         // 先判断类型跟地址数据是否合法
@@ -97,7 +99,7 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
         for(Pinfo info : pinfoList){
             PartTimeSectionResp resp = new PartTimeSectionResp();
             resp.setAddress(info.getAddress());
-            resp.setCreateTime(info.getCreateTime());
+            resp.setCreateTimeToString(info.getCreateTime());
             resp.setId(info.getId());
             resp.setLongTerm(info.getLongTerm());
             resp.setSalary(info.getSalary());

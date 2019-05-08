@@ -2,12 +2,17 @@ package com.demo.parttime.util;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author 52123
  * @since 2019/4/8 0:58
  */
 @Data
-public class WebResp<T> {
+public class WebResp<T> implements Serializable {
+
+    private static final long serialVersionUID = -2156191491231337L;
+
     private String resultCode = "0000";
     
     private String message;
