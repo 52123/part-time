@@ -51,18 +51,12 @@ public class ObjectCacheableAspect {
 
         String redisKey;
         try {
-            // 若方法无参数，抛出异常
-            if(params.length == 0){
-                log.info("注解使用有误: className-->{}, methodName-->{}",className,methodName);
-                throw new Exception("Method signature cannot be empty and \n" +
-                "the first object cannot be null and it must has at least one valid value");
-            }
-
             // 得到访问方法的对象
             Method method = className.getMethod(methodName, paramClass);
             if(method.isAnnotationPresent(ObjectCacheable.class)){
                 ObjectCacheable objectCacheable = method.getAnnotation(ObjectCacheable.class);
-                redisKey = getRedisKey(params[0], objectCacheable);
+                // 若readObject为false，返回key，true，则拼接属性值作为key
+                redisKey = objectCacheable.readObject() ? getRedisKey(params, objectCacheable) : getAnnotationKey(objectCacheable);
                 ValueOperations  operations = redisTemplate.opsForValue();
                 if(redisTemplate.hasKey(redisKey)){
                     return operations.get(redisKey);
@@ -79,12 +73,32 @@ public class ObjectCacheableAspect {
     }
 
     /**
-     * 根据ObjectCacheable生成key
-     * @param param 方法签名
+     *  若方法无参数，直接返回注解中的key
      * @param objectCacheable 注解
      * @return redisKey
      */
-    private String getRedisKey(Object param, ObjectCacheable objectCacheable) throws Exception{
+    private String getAnnotationKey(ObjectCacheable objectCacheable) throws Exception{
+        String key = objectCacheable.key();
+        String[] fields = objectCacheable.fields();
+
+        if(fields.length != 0){
+            throw new Exception("Empty method signature cannot have fields");
+        }
+        return key;
+    }
+
+    /**
+     * 根据ObjectCacheable生成key
+     * @param params 方法签名
+     * @param objectCacheable 注解
+     * @return redisKey
+     */
+    private String getRedisKey(Object[] params, ObjectCacheable objectCacheable) throws Exception{
+        if(params.length == 0){
+            throw new Exception("Method signature is not empty or you can set the readObject value to false");
+        }
+
+        Object param = params[0];
         String key = objectCacheable.key();
         String[] fields = objectCacheable.fields();
 
