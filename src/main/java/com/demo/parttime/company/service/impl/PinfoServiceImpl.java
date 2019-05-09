@@ -14,6 +14,7 @@ import com.demo.parttime.util.WebResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
 
     @Override
     @SuppressWarnings("unchecked")
-    @ObjectCacheable(key = "{}:{}:{}:{}",fields = {"type","address","pageNum","pageSize"})
+    @ObjectCacheable(key = "ptList:{}:{}:{}:{}",fields = {"type","address","pageNum","pageSize"})
     public WebResp getPartTimeList(PartTimeSectionReq req) {
 
         // 先判断类型跟地址数据是否合法
