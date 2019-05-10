@@ -1,6 +1,5 @@
 package com.demo.parttime.company.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.company.annotation.ObjectCacheable;
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
@@ -14,7 +13,6 @@ import com.demo.parttime.util.WebResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,9 +35,14 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
 
     private static final String[] ADDRESSES = {"不限","南海","禅城","顺德","三水","高明"};
 
+    /**
+     * @annotation  官方注解 @Cacheable(cacheNames = "ptList",key = "#req.type + ':' + #req.address + ':' + #req.categoryId + ':'+ #req.pageNum + ':' + #req.pageSize + ':' + #req.search")
+     * @param req 返回信息条件
+     * @return 兼职列表
+     */
     @Override
     @SuppressWarnings("unchecked")
-    @ObjectCacheable(key = "ptList:{}:{}:{}:{}",fields = {"type","address","pageNum","pageSize"})
+    @ObjectCacheable(key = "ptList:{}:{}:{}:{}:{}:{}",fields = {"type","address","categoryId","pageNum","pageSize","search"})
     public WebResp getPartTimeList(PartTimeSectionReq req) {
 
         // 先判断类型跟地址数据是否合法
@@ -50,7 +53,6 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
         }
 
         boolean addressCondition = !ADDRESSES[0].equals(address);
-
 
 
         // 获取页数
@@ -65,27 +67,14 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
         Integer categoryId = req.getCategoryId();
         boolean categoryCondition = isLegalCategoryValue(categoryId);
 
-        // todo 可优化,以后从缓存中读取，或者搜索引擎
-        // 若不等于区域，则进行like查询
-        List<Pinfo> pinfoList;
-        if(!TYPES[2].equals(type)){
-           PageHelper.startPage(pageNum,pageSize);
-           pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
-                   .eq("status",1).eq("publish",1)
-                   .like(searchCondition,"title",search).like(addressCondition,"address",address).orderByDesc(type));
-        }else{
-           if(ADDRESSES[0].equals(address)){
-               PageHelper.startPage(pageNum,pageSize);
-               pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
-                       .eq("status",1).eq("publish",1)
-                       .like(searchCondition,"title",search).orderByDesc("create_time"));
-           }else{
-               PageHelper.startPage(pageNum,pageSize);
-               pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
-                       .eq("status",1).eq("publish",1)
-                       .like("address",address).like(searchCondition,"title",search).orderByDesc("create_time"));
-           }
-        }
+        // 如果按工作区域来显示，则按create_time进行排序
+        // todo 搜索引擎
+        PageHelper.startPage(pageNum,pageSize);
+        List<Pinfo> pinfoList = new Pinfo().selectList(new QueryWrapper<Pinfo>().eq(categoryCondition,"category_id",categoryId)
+                .eq("status",1).eq("publish",1)
+                .like(searchCondition,"title",search).like(addressCondition,"address",address)
+                .orderByDesc("address".equals(type) ? "create_time" : type));
+
 
         // 命中总数和总页数
         Integer totalPage = null;
