@@ -144,7 +144,7 @@ public class ObjectCacheableAspect {
             Method method = clazz.getMethod("get" + firstCharToUpperCase(field));
             String value = String.valueOf(method.invoke(param));
             //若得到的值为null，则去父类那里看看是否有对应的属性值，若还是null，则跳过
-            if("null".equals(value)){
+            if("null".equals(value) || StringUtils.isBlank(value)){
                 hasInvalidValue = true;
                 continue;
             }
@@ -165,11 +165,11 @@ public class ObjectCacheableAspect {
         Class clazz = param.getClass();
         StringBuilder redisKey = new StringBuilder();
         for(Field field : clazz.getFields()){
-            String value;
             // 获取到对象对应字段的get方法并从中获取值
             Method method = clazz.getMethod("get" + firstCharToUpperCase(field.getName()));
             // 不等于null时，添加到redisKey中
-            if(!"null".equals(value = String.valueOf(method.invoke(param)))){
+            String value = String.valueOf(method.invoke(param));
+            if(!"null".equals(value) && StringUtils.isNotBlank(value)){
                 redisKey.append(value).append(":");
             }
         }
@@ -194,11 +194,11 @@ public class ObjectCacheableAspect {
         Class clazz = param.getClass();
         StringBuilder redisKey = new StringBuilder();
         for(String field : fields){
-            String value;
             // 获取到对象对应字段的get方法并从中获取值
             Method method = clazz.getMethod("get" + firstCharToUpperCase(field));
             // 不等于null时，添加到redisKey中
-            if(!"null".equals(value = String.valueOf(method.invoke(param)))){
+            String value = String.valueOf(method.invoke(param));
+            if(!"null".equals(value) && StringUtils.isNotBlank(value)){
                 redisKey.append(value).append(":");
             }
         }
