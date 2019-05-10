@@ -1,8 +1,5 @@
 package com.demo.parttime.company.annotation;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.AliasFor;
-
 import java.lang.annotation.*;
 
 /**
@@ -11,8 +8,9 @@ import java.lang.annotation.*;
  *  根据方法的第一个参数对象的所有非空属性作为redisKey
  *  传入的key为空则直接拼接对象的所有非空属性值
  *  不为空则替换{} 为 对应的对象属性
+ *  当readObject为false时，用key的值作为redisKey
  *  用法一  @ObjectCacheable(key = "redisKey:{}:{}", fields ={"name","age"}) --> redisKey:Hugh:12
- *          若name为null， 则结果为 redisKey:12:   注意只会删去{}
+ *          若name为null， 则结果为 redisKey:12
  *  用法二  @ObjectCacheable(fields ={"name","age"})  -->  Hugh:12
  *  用法三  @ObjectCacheable(key = "redisKey"，readObject = false)   -->  redisKey
  *  用法四  @ObjectCacheable   自动获取方法第一个对象的非空属性作为redisKey  -->  Hugh:12
