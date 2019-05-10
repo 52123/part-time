@@ -1,5 +1,6 @@
 package com.demo.parttime.wx.service.impl;
 
+import com.demo.parttime.company.annotation.ObjectCacheable;
 import com.demo.parttime.util.BaseResp;
 import com.demo.parttime.wx.dto.resp.SchoolInfoResp;
 import com.demo.parttime.wx.entity.School;
@@ -27,6 +28,7 @@ public class SchoolServiceImpl extends ServiceImpl<SchoolMapper, School> impleme
 
     @Override
     @SuppressWarnings("unchecked")
+    @ObjectCacheable(key = "schoolList", readObject = false)
     public BaseResp getSchoolList() {
         List<School> schoolList = new School().selectAll();
         List<SchoolInfoResp> respList = new ArrayList<>();
