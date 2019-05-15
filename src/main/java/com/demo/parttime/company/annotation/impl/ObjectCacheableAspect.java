@@ -67,7 +67,7 @@ public class ObjectCacheableAspect {
                 }
             }
         }catch (Exception e){
-            log.info("ObjectCacheable Exception: {}  Cause:{}",e.getMessage(),e.getCause());
+            log.error("ObjectCacheable error",e);
         }
         return null;
     }
