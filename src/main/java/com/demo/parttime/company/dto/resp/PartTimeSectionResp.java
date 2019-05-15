@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PartTimeSectionResp extends WebResp {
+public class PartTimeSectionResp{
 
     private int id;
 
