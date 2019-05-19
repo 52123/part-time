@@ -53,7 +53,6 @@ public class CreateOrUpdateIndex {
                 indexWriter.addDocument(document);
             }
             indexWriter.commit();
-            indexWriter.close();
         } catch (Exception e) {
             log.error("创建索引失败：{}", e.getMessage());
         }
