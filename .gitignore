@@ -3,6 +3,7 @@
 
 ### STS ###
 .apt_generated
+.mvn
 .classpath
 .factorypath
 .project
