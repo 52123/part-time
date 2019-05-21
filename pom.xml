@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <lucene.version>6.0.0</lucene.version>
+        <lucene.version>7.2.1</lucene.version>
     </properties>
 
     <dependencies>
@@ -141,6 +141,12 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-queries</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-backward-codecs -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-backward-codecs</artifactId>
             <version>${lucene.version}</version>
         </dependency>
         <!--smartcn 中文分词器 SmartChineseAnalyzer  smartcn分词器 需要lucene依赖 且和lucene版本同步-->

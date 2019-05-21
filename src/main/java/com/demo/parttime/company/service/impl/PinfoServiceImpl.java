@@ -104,7 +104,7 @@ public class PinfoServiceImpl extends ServiceImpl<PinfoMapper, Pinfo> implements
                     PartTimeSectionResp resp = JSON.parseObject(String.valueOf(map.get("data")), PartTimeSectionResp.class);
                     respList.add(resp);
                 }
-                return new WebResp().success(respList, result.getTotalHits() / pageSize + 1);
+                return new WebResp().success(respList, (int)(result.getTotalHits() / pageSize + 1));
             }
         }
 

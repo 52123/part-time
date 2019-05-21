@@ -16,7 +16,7 @@ public class LuceneResult{
 
     private String msg;
 
-    private Integer totalHits;
+    private Long totalHits;
 
     private List<Map<String,String>> data;
 
