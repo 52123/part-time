@@ -3,13 +3,13 @@
 
 ### STS ###
 .apt_generated
-.mvn
 .classpath
 .factorypath
 .project
 .settings
 .springBeans
 .sts4-cache
+.mvn
 
 ### IntelliJ IDEA ###
 .idea
