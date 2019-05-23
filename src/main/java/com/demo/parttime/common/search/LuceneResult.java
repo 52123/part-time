@@ -1,4 +1,4 @@
-package com.demo.parttime.util.search;
+package com.demo.parttime.utils.search;
 
 import lombok.Data;
 
