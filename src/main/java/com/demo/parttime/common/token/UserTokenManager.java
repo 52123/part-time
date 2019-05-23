@@ -1,4 +1,4 @@
-package com.demo.parttime.util;
+package com.demo.parttime.common.token;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.wx.entity.User;

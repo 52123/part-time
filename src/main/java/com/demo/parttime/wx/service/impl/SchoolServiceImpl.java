@@ -1,7 +1,7 @@
 package com.demo.parttime.wx.service.impl;
 
 import com.demo.parttime.company.annotation.ObjectCacheable;
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import com.demo.parttime.wx.dto.resp.SchoolInfoResp;
 import com.demo.parttime.wx.entity.School;
 import com.demo.parttime.wx.mapper.SchoolMapper;

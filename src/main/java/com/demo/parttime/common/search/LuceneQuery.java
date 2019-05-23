@@ -1,9 +1,8 @@
-package com.demo.parttime.util.search;
+package com.demo.parttime.common.search;
 
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
-import org.springframework.beans.factory.annotation.Value;
 
 
 /**

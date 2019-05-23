@@ -1,6 +1,5 @@
 package com.demo.parttime.company.dto.resp;
 
-import com.demo.parttime.util.WebResp;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

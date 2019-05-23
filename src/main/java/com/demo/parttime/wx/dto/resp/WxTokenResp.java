@@ -1,6 +1,6 @@
 package com.demo.parttime.wx.dto.resp;
 
-import com.demo.parttime.util.WebResp;
+import com.demo.parttime.common.model.WebResp;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,4 +1,4 @@
-package com.demo.parttime.util;
+package com.demo.parttime.common.model;
 
 import lombok.Data;
 

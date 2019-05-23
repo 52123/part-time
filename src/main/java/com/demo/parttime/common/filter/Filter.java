@@ -1,8 +1,8 @@
-package com.demo.parttime.filter;
+package com.demo.parttime.common.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.demo.parttime.util.BaseResp;
-import com.demo.parttime.util.UserTokenManager;
+import com.demo.parttime.common.model.BaseResp;
+import com.demo.parttime.common.token.UserTokenManager;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 

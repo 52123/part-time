@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.parttime.admin.entity.Swiper;
 import com.demo.parttime.admin.service.ISwiperService;
 import com.demo.parttime.company.annotation.ObjectCacheable;
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 

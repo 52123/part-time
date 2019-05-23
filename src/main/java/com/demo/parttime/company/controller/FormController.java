@@ -3,7 +3,7 @@ package com.demo.parttime.company.controller;
 
 import com.demo.parttime.company.dto.req.DeliverStatusReq;
 import com.demo.parttime.company.service.IFormService;
-import com.demo.parttime.util.WebResp;
+import com.demo.parttime.common.model.WebResp;
 import com.demo.parttime.wx.annotation.WxUser;
 import com.demo.parttime.wx.entity.User;
 import org.springframework.web.bind.annotation.PostMapping;

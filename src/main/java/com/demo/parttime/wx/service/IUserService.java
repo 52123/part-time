@@ -1,6 +1,6 @@
 package com.demo.parttime.wx.service;
 
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import com.demo.parttime.wx.dto.req.WxUserInfoSaveReq;
 import com.demo.parttime.wx.dto.resp.WxTokenResp;
 import com.demo.parttime.wx.entity.User;

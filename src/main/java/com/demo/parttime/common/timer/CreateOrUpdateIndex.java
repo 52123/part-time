@@ -1,4 +1,4 @@
-package com.demo.parttime.timer;
+package com.demo.parttime.common.timer;
 
 import com.alibaba.fastjson.JSON;
 import com.demo.parttime.company.dto.resp.PartTimeSectionResp;
