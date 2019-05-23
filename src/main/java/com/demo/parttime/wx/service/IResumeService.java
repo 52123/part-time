@@ -1,6 +1,6 @@
 package com.demo.parttime.wx.service;
 
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import com.demo.parttime.wx.entity.Resume;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.parttime.wx.entity.User;

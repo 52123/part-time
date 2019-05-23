@@ -1,4 +1,4 @@
-package com.demo.parttime.util.search;
+package com.demo.parttime.common.search;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.index.IndexableField;

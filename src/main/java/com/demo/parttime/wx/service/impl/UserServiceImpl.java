@@ -2,8 +2,8 @@ package com.demo.parttime.wx.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.demo.parttime.util.BaseResp;
-import com.demo.parttime.util.UserTokenManager;
+import com.demo.parttime.common.model.BaseResp;
+import com.demo.parttime.common.token.UserTokenManager;
 import com.demo.parttime.wx.dto.req.WxUserInfoSaveReq;
 import com.demo.parttime.wx.dto.resp.WxTokenResp;
 import com.demo.parttime.wx.service.IUserService;

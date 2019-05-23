@@ -1,7 +1,7 @@
 package com.demo.parttime.wx.service;
 
-import com.demo.parttime.util.BaseResp;
-import com.demo.parttime.util.WebResp;
+import com.demo.parttime.common.model.BaseResp;
+import com.demo.parttime.common.model.WebResp;
 import com.demo.parttime.wx.entity.Collect;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.demo.parttime.wx.entity.User;

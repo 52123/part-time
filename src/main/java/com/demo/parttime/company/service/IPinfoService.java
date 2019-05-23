@@ -3,8 +3,8 @@ package com.demo.parttime.company.service;
 import com.demo.parttime.company.dto.req.PartTimeSectionReq;
 import com.demo.parttime.company.entity.Pinfo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.demo.parttime.util.BaseResp;
-import com.demo.parttime.util.WebResp;
+import com.demo.parttime.common.model.BaseResp;
+import com.demo.parttime.common.model.WebResp;
 
 /**
  * <p>
