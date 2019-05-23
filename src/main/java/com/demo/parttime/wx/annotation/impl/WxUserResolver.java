@@ -1,6 +1,6 @@
 package com.demo.parttime.wx.annotation.impl;
 
-import com.demo.parttime.util.UserTokenManager;
+import com.demo.parttime.common.token.UserTokenManager;
 import com.demo.parttime.wx.annotation.WxUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;

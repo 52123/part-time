@@ -1,7 +1,7 @@
 package com.demo.parttime.wx.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import com.demo.parttime.wx.entity.Auth;
 import com.demo.parttime.wx.entity.User;
 import com.demo.parttime.wx.mapper.AuthMapper;

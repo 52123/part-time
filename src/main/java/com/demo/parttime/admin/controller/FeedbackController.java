@@ -2,7 +2,7 @@ package com.demo.parttime.admin.controller;
 
 
 import com.demo.parttime.admin.entity.Feedback;
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import com.demo.parttime.wx.annotation.WxUser;
 import com.demo.parttime.wx.entity.User;
 import org.apache.commons.lang3.StringUtils;

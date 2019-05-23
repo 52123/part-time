@@ -1,6 +1,6 @@
 package com.demo.parttime.company.dto.req;
 
-import com.demo.parttime.util.WebReq;
+import com.demo.parttime.common.model.WebReq;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

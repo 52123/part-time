@@ -1,7 +1,7 @@
 package com.demo.parttime.wx.controller;
 
 
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import com.demo.parttime.wx.service.ISchoolService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

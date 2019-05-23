@@ -2,7 +2,7 @@ package com.demo.parttime.wx.controller;
 
 
 
-import com.demo.parttime.util.BaseResp;
+import com.demo.parttime.common.model.BaseResp;
 import com.demo.parttime.wx.annotation.WxUser;
 import com.demo.parttime.wx.dto.req.WxUserInfoSaveReq;
 import com.demo.parttime.wx.dto.resp.WxTokenResp;

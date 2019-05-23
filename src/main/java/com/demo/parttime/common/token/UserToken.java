@@ -1,4 +1,4 @@
-package com.demo.parttime.util;
+package com.demo.parttime.common.token;
 
 import com.demo.parttime.wx.entity.User;
 import lombok.Data;
